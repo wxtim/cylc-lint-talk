@@ -1,8 +1,4 @@
-[cylc]
+#!jinja2
+{% set FOO = 042 %}
 
-[scheduling]
-    [[dependencies]]
-        [[[R1]]]]
-            graph = foo
-
-[visualization]
+ [cylc]

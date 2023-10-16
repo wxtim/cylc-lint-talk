@@ -1,0 +1,5 @@
+[cylc-lint]
+#     ignore = ['S004']       # rules
+#     max-line-length = 250
+    rulesets = ['style']
+#     exclude = []            # files

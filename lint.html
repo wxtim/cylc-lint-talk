@@ -54,13 +54,166 @@
 							{% endif %}
 
 						```
+						---
+
+						### 🧮 Can you give you line numbers:
+
+						```console
+						[U998] flow.cylc:4: [cylc] -> [scheduler]
+						```
 
 						---
 
-						## Basic Examples
+						### 💔 Doesn't fail on the first exception:
 
-						* Linter mode
-						* Fixer Mode
+						```console
+						WorkflowConfigError: missing [scheduling] section.
+						```
+
+						---
+
+						## Benefits of Style linting
+
+						---
+
+						### 👓 Config is more readable
+
+						```toml
+							[runtime]
+							[[my_task]]
+							script = echo "Hello ${WORLD}"
+							[[[environment]]]
+							WORLD="Golgafrincham"
+							[[another_task]]
+						```
+
+						```toml
+							[runtime]
+							    [[my_task]]
+									script = echo "Hello ${WORLD}"
+									[[[environment]]]
+										WORLD="Golgafrincham"
+								[[another_task]]
+						```
+
+						---
+
+						### ⚠️ Avoid Gotchas
+
+						```toml
+						# {% if QUESTION == 'ultimate' %}
+						#     {% ... do stuff ... %}
+						# {% endif %}
+						```
+
+
+						---
+
+						## Basic Example
+
+						Can you spot the problems?
+
+						(2 upgade, 1 style)
+
+						```ini
+						#!jinja2
+						{% set FOO = 042 %}
+
+						 [cylc]
+						```
+
+						```console
+						cylc lint ./eg-1     # -r all
+						cylc lint ./eg-1 -r style
+						cylc lint ./eg-1 -r 728
+						```
+
+						---
+
+						## 🆙 728 Rules
+
+						Highlights only - see [docs](https://cylc.github.io/cylc-doc/stable/html/user-guide/writing-workflows/configuration.html#to-8-upgrades) for full details.
+
+						- Looks for deprecated settings.
+						- Looks for deprecated environment variables.
+						- Looks for use of non-Cylc8 commands e.g. `cylc reset`
+
+						---
+
+						### 🖋️ Style Rules
+
+						Highlights only - see [docs](https://cylc.github.io/cylc-doc/stable/html/user-guide/writing-workflows/configuration.html#style) for fuller list.
+
+						- Line length, trailing spaces, some indents.
+						- `inherit = lower_case` (FAMILY?)
+						- Jinja2 present with no shebang.
+
+						---
+
+						## Pyproject.toml
+
+						> My project uses 2 Char indents
+						> and allows very long lines.
+
+						---
+
+						```toml
+						# flow.cylc fragment
+						[runtime]
+						  [[task]]
+							script """
+								echo "'Antidisestablismentarianism is a very long word - can you spell it?' is not quite long enough to trip the defauly 130 char line length limit."
+							"""
+						```
+
+						```toml
+						# pyproject.toml
+						[cylc-lint]
+						    ignore = ['S004']       # rules
+						    max-line-length = 250
+							rulesets = ['style']
+						    exclude = []            # files
+						```
+
+						---
+
+						## Limitations 🚧
+
+						Line by line
+
+						```toml
+						# This config is 🚮
+						[runtime]
+							initial cycle point = 1066-10-14
+						```
+
+						---
+
+						## 🫵 Cylc Lint Needs YOU!
+
+						https://github.com/cylc/cylc-flow
+
+						`cylc/flow/scripts/lint.py`
+
+						---
+
+						Rules have a standard definition
+
+						```python
+							"S013": {
+								'short': 'Hello Tim',
+								'function': re.compile(r'Tim').findall
+							},
+						```
+
+						---
+
+						* Helps you upgrade 7-to-8.
+						* Makes your `flow.cylc` easier to read.
+						* Teaches you about the style guide.
+						* Helps you avoid "Gotchas"
+
+						### The End
 					</script>
 				</section>
 

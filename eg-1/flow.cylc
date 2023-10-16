@@ -1,0 +1,8 @@
+[cylc]
+
+[scheduling]
+    [[dependencies]]
+        [[[R1]]]]
+            graph = foo
+
+[visualization]
